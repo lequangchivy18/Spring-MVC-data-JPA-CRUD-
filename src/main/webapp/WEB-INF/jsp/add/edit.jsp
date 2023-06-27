@@ -51,8 +51,8 @@
 				</div>
 				<div class="form-group px-1">
 					<label for="matoanha">Mã toà nhà</label>
-					<form:input type="text" min="0" class="form-control" id="matoanha" name = "matoanha" placeholder="mã toà nhà" path="matoanha.matoanha"/>
-					<p class="text-danger"><form:errors path="matoanha.matoanha" /></p>
+					<form:input type="text" min="0" class="form-control" id="matoanha" name = "matoanha" placeholder="mã toà nhà" path="matoanha"/>
+					<p class="text-danger"><form:errors path="matoanha" /></p>
 					<p class="text-danger">${log}</p>
 				</div>
 				<div class="form-group px-1">
