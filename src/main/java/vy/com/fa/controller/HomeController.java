@@ -79,8 +79,8 @@ public class HomeController {
 		return "/add/list";
 	}
 
-	@GetMapping("/edit/ma={ma}")
-	public String edit(@ModelAttribute(name = "ma") String ma, Model model) {
+	@GetMapping("/edit/ma={id}")
+	public String edit(@ModelAttribute(name = "id") String ma, Model model) {
 		TTPhiChungCu ttPhiChungCu = chungCuServiceImpl.getById(ma);
 		TTPhiChungCuDTO chungCuDTO = new TTPhiChungCuDTO(ttPhiChungCu.getMatt(), ttPhiChungCu.getMacanho(),
 				ttPhiChungCu.getDientich(), ttPhiChungCu.getMatoanha().getMatoanha(), ttPhiChungCu.getTenchuho(),
@@ -91,12 +91,13 @@ public class HomeController {
 	}
 
 	@PostMapping("/edit")
-	public String showedit(@ModelAttribute(name = "tt") @Valid TTPhiChungCuDTO ttPhiChungCuDTO, BindingResult result) {
+	public String showedit(@ModelAttribute(name = "tt") @Valid TTPhiChungCuDTO ttPhiChungCuDTO, BindingResult result, Model model) {
 		
 		chungCuValidate.validate(ttPhiChungCuDTO, result);
 		
 		if (result.hasErrors()) {
-			return "redirect:/home/edit/ma=" + ttPhiChungCuDTO.getMatt();
+//			return "redirect:/home/edit/ma=" + ttPhiChungCuDTO.getMatt();
+			return "/add/edit";
 		}
 
 		ttPhiChungCuDTO.setTongtien(tongTien(ttPhiChungCuDTO.getDientich(), ttPhiChungCuDTO.getSothang(),
