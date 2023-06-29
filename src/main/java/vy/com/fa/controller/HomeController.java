@@ -5,6 +5,9 @@ import java.time.LocalDate;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import vy.com.fa.dto.TTPhiChungCuDTO;
 import vy.com.fa.entity.TTPhiChungCu;
@@ -74,8 +78,22 @@ public class HomeController {
 	}
 
 	@GetMapping("/list")
-	public String showList(Model model) {
-		model.addAttribute("listTT", chungCuServiceImpl.findAll());
+	public String showList(Model model,@RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+		      @RequestParam(name = "size", required = false, defaultValue = "1") Integer size,
+		      @RequestParam(name = "sort", required = false, defaultValue = "ASC") String sort) {
+//		Sort sortable = null;
+//	    if (sort.equals("ASC")) {
+//	      sortable = Sort.by("id").ascending();
+//	    }
+//	    if (sort.equals("DESC")) {
+//	      sortable = Sort.by("id").descending();
+//	    }
+		
+	    Pageable pageable = PageRequest.of(page, size);
+	    
+	    model.addAttribute("totalPages",chungCuServiceImpl.findTTPhiChungCu(pageable).getTotalPages());
+	    model.addAttribute("page",page);
+		model.addAttribute("listTT", chungCuServiceImpl.findTTPhiChungCu(pageable).toList());
 		return "/add/list";
 	}
 

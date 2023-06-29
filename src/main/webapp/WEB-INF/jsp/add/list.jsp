@@ -113,6 +113,25 @@ td {
 				</tr>
 			</tfoot>
 		</table>
+		<div class="pagination">
+			<c:if test="${page > 0}">
+				<a href="list?page=${page-1}">Previous</a>
+			</c:if>
+			<c:forEach begin="0" end="${totalPages-1}" var="i">
+				<c:choose>
+					<c:when test="${page eq i}">
+						<a class="active"> ${i+1} </a>
+					</c:when>
+					<c:otherwise>
+						<a href="list?page=${i}">${i+1}</a>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+
+			<c:if test="${page lt totalPages-1}">
+				<a href="list?page=${page+1}">Next</a>
+			</c:if>
+		</div>
 	</div>
 	<script
 		src="${pageContext.request.contextPath}/resources/jquery/jquery-3.6.1.min.js"></script>

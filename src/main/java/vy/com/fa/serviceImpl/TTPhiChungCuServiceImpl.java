@@ -3,6 +3,8 @@ package vy.com.fa.serviceImpl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import vy.com.fa.entity.TTPhiChungCu;
@@ -21,9 +23,9 @@ public class TTPhiChungCuServiceImpl implements TTPhiChungCuService{
 	}
 
 	@Override
-	public List<TTPhiChungCu> findAll() {
+	public Page<TTPhiChungCu> findTTPhiChungCu(Pageable pageable) {
 		// TODO Auto-generated method stub
-		return chungCuRepository.findAll();
+		return chungCuRepository.findTTPhiChungCu(pageable);
 	}
 
 	@Override
