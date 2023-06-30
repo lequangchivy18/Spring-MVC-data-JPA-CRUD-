@@ -57,8 +57,18 @@ td {
 				Cập nhật thành công
 			</div>
 		</c:if>
-		<div class="d-flex align-items-center justify-content-between mb-2" style="gap:10px">
+		<div class="d-flex mb-2" style="gap: 15px">
 			<a href="${pageContext.request.contextPath}/home/show" class="btn btn-success">ADD</a>
+			<form action="${pageContext.request.contextPath}/home/list" method="Get">
+				<div class="input-group">
+				  <div class="form-outline">
+				    <input type="search" id="form1" class="form-control" name="searchKey" />
+				  </div>
+				  <button type="submit" class="btn btn-primary">
+				    <i class="fa fa-search"></i>
+				  </button>
+				</div>
+			</form>
 		</div>
 		<table class="table table-striped table-bordered">
 			<thead>
@@ -115,7 +125,7 @@ td {
 		</table>
 		<div class="pagination">
 			<c:if test="${page > 0}">
-				<a href="list?page=${page-1}">Previous</a>
+				<a href="list?page=${page-1}&searchKey=${searchKey}">Previous</a>
 			</c:if>
 			<c:forEach begin="0" end="${totalPages-1}" var="i">
 				<c:choose>
@@ -123,13 +133,13 @@ td {
 						<a class="active"> ${i+1} </a>
 					</c:when>
 					<c:otherwise>
-						<a href="list?page=${i}">${i+1}</a>
+						<a href="list?page=${i}&searchKey=${searchKey}">${i+1}</a>
 					</c:otherwise>
 				</c:choose>
 			</c:forEach>
 
 			<c:if test="${page lt totalPages-1}">
-				<a href="list?page=${page+1}">Next</a>
+				<a href="list?page=${page+1}&searchKey=${searchKey}">Next</a>
 			</c:if>
 		</div>
 	</div>

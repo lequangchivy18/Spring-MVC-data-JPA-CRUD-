@@ -1,7 +1,5 @@
 package vy.com.fa.serviceImpl;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +30,13 @@ public class TTPhiChungCuServiceImpl implements TTPhiChungCuService{
 	public TTPhiChungCu getById(String id) {
 		// TODO Auto-generated method stub
 		return chungCuRepository.getById(id);
+	}
+
+	@Override
+	public Page<TTPhiChungCu> findByTenchuhoLike(String name, Pageable pageable) {
+		// TODO Auto-generated method stub
+		//return chungCuRepository.findByTenchuhoContaining(name,pageable);
+		return chungCuRepository.findByTenchuho(name,pageable);
 	}
 
 }

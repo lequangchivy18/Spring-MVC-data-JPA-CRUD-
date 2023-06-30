@@ -7,7 +7,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -79,8 +78,10 @@ public class HomeController {
 
 	@GetMapping("/list")
 	public String showList(Model model,@RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
-		      @RequestParam(name = "size", required = false, defaultValue = "1") Integer size,
-		      @RequestParam(name = "sort", required = false, defaultValue = "ASC") String sort) {
+		      @RequestParam(name = "size", required = false, defaultValue = "2") Integer size,
+		      @RequestParam(name = "sort", required = false, defaultValue = "ASC") String sort,
+		      @RequestParam(name = "searchKey", required = false, defaultValue = "") String searchKey) {
+		
 //		Sort sortable = null;
 //	    if (sort.equals("ASC")) {
 //	      sortable = Sort.by("id").ascending();
@@ -91,9 +92,10 @@ public class HomeController {
 		
 	    Pageable pageable = PageRequest.of(page, size);
 	    
-	    model.addAttribute("totalPages",chungCuServiceImpl.findTTPhiChungCu(pageable).getTotalPages());
+	    model.addAttribute("totalPages",chungCuServiceImpl.findByTenchuhoLike(searchKey,pageable).getTotalPages());
 	    model.addAttribute("page",page);
-		model.addAttribute("listTT", chungCuServiceImpl.findTTPhiChungCu(pageable).toList());
+	    model.addAttribute("searchKey",searchKey);
+		model.addAttribute("listTT", chungCuServiceImpl.findByTenchuhoLike(searchKey,pageable).toList());
 		return "/add/list";
 	}
 
