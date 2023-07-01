@@ -1,12 +1,14 @@
 package vy.com.fa.controller;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -77,25 +79,32 @@ public class HomeController {
 	}
 
 	@GetMapping("/list")
-	public String showList(Model model,@RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
-		      @RequestParam(name = "size", required = false, defaultValue = "2") Integer size,
-		      @RequestParam(name = "sort", required = false, defaultValue = "ASC") String sort,
-		      @RequestParam(name = "searchKey", required = false, defaultValue = "") String searchKey) {
+	public String showList(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+			@RequestParam(name = "size", required = false, defaultValue = "2") Integer size,
+			@RequestParam(name = "sort", required = false, defaultValue = "ASC") String sort,
+			@RequestParam(name = "searchKey", required = false, defaultValue = "") String searchKey) {
+
+		Sort sortable = null;
+	    if (sort.equals("ASC")) {
+	      sortable = Sort.by("id").ascending();
+	    }
+	    if (sort.equals("DESC")) {
+	      sortable = Sort.by("id").descending();
+	    }
+
+		Pageable pageable = PageRequest.of(page, size, sortable);
+		List<TTPhiChungCu> listTT=chungCuServiceImpl.findByTenchuhoLike(searchKey, pageable).toList();
+		if(listTT!=null) {
+			model.addAttribute("totalPages", chungCuServiceImpl.findByTenchuhoLike(searchKey, pageable).getTotalPages());
+		}else {
+			model.addAttribute("totalPages", 0);
+		}
+		model.addAttribute("page", page);
+		model.addAttribute("searchKey", searchKey);
+		model.addAttribute("listTT", listTT);
 		
-//		Sort sortable = null;
-//	    if (sort.equals("ASC")) {
-//	      sortable = Sort.by("id").ascending();
-//	    }
-//	    if (sort.equals("DESC")) {
-//	      sortable = Sort.by("id").descending();
-//	    }
+		model.addAttribute("sort", sort);
 		
-	    Pageable pageable = PageRequest.of(page, size);
-	    
-	    model.addAttribute("totalPages",chungCuServiceImpl.findByTenchuhoLike(searchKey,pageable).getTotalPages());
-	    model.addAttribute("page",page);
-	    model.addAttribute("searchKey",searchKey);
-		model.addAttribute("listTT", chungCuServiceImpl.findByTenchuhoLike(searchKey,pageable).toList());
 		return "/add/list";
 	}
 
@@ -111,10 +120,11 @@ public class HomeController {
 	}
 
 	@PostMapping("/edit")
-	public String showedit(@ModelAttribute(name = "tt") @Valid TTPhiChungCuDTO ttPhiChungCuDTO, BindingResult result, Model model) {
-		
+	public String showedit(@ModelAttribute(name = "tt") @Valid TTPhiChungCuDTO ttPhiChungCuDTO, BindingResult result,
+			Model model) {
+
 		chungCuValidate.validate(ttPhiChungCuDTO, result);
-		
+
 		if (result.hasErrors()) {
 //			return "redirect:/home/edit/ma=" + ttPhiChungCuDTO.getMatt();
 			return "/add/edit";
