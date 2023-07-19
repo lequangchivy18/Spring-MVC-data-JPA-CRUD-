@@ -86,17 +86,17 @@ td {
 					<c:if test="${sort eq 'DESC'}">
 						<th class="text-center align-middle d-flex align-items-center">
 							<span>Tổng tiền</span> 
-							<a href="list?page=${page}&searchKey=${searchKey}&sort=${'DESC'}" onclick=""> 
-							<i class="fa fa-sort-desc pl-1" aria-hidden="true"></i>
-						</a>
+							<a href="list?page=${page}&searchKey=${searchKey}&sort=${'DESC'}" class ="d-none" onclick=""> 
+								<i class="fa fa-sort-desc pl-1 d-none" aria-hidden="true"></i>
+							</a>
 						</th>
 					</c:if>
 					<c:if test="${sort eq 'ASC'}">
 						<th class="text-center align-middle d-flex align-items-center">
 							<span>Tổng tiền</span> 
-							<a href="list?page=${page}&searchKey=${searchKey}&sort=${'ASC'}" onclick=""> 
-							<i class="fa fa-sort-desc pl-1" aria-hidden="true"></i>
-						</a>
+							<a href="list?page=${page}&searchKey=${searchKey}&sort=${'ASC'}" class ="" onclick=""> 
+								<i class="fa fa-sort-asc pl-1" aria-hidden="true"></i>
+							</a>
 						</th>
 					</c:if>
 
